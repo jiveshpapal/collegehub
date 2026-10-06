@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}College Projects - CollegeHub{% endblock %}
+
+{% block heading %}College Projects & Submissions{% endblock %}
+{% block subheading %}Explore student capstone projects or submit your proposal for faculty review.{% endblock %}
+
+{% block content %}
+<!-- Project Submission Form Box -->
+<div style="background: #FFF; border: 1px solid var(--border-color); border-radius: 10px; padding: 24px; margin-bottom: 28px;">
+    <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 16px;">Submit New College Project</h3>
+    <form action="{{ url_for('projects') }}" method="POST">
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 14px;">
+            <div class="form-group">
+                <label>Project Title *</label>
+                <input type="text" name="title" placeholder="e.g. Smart Campus Sensor Simulation & Telemetry Broker" required class="form-input">
+            </div>
+            <div class="form-group">
+                <label>Domain *</label>
+                <select name="domain" class="form-select">
+                    <option value="Full-Stack Web Application">Full-Stack Web Application</option>
+                    <option value="Internet of Things (IoT) & Cloud">Internet of Things (IoT) & Cloud</option>
+                    <option value="Artificial Intelligence">Artificial Intelligence</option>
+                    <option value="Cyber Security">Cyber Security</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Project Abstract *</label>
+            <textarea name="abstract" rows="2" placeholder="Brief explanation of problem statement, objectives, and tech stack..." required class="form-textarea"></textarea>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+                <label>Tech Stack</label>
+                <input type="text" name="tech_stack" placeholder="Python, Flask, MySQL, HTML, CSS" class="form-input">
+            </div>
+            <div class="form-group">
+                <label>Faculty Supervisor *</label>
+                <input type="text" name="supervisor" placeholder="Prof. S. Kulkarni" required class="form-input">
+            </div>
+            <div class="form-group">
+                <label>GitHub Repository URL</label>
+                <input type="url" name="github_url" placeholder="https://github.com/..." class="form-input">
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end;">
+            <button type="submit" class="btn-forest">Submit Proposal &rarr;</button>
+        </div>
+    </form>
+</div>
+
+<!-- Projects List -->
+<h3 style="font-size: 16px; font-weight: 700; margin-bottom: 14px;">Active Submissions</h3>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 16px;">
+    {% for p in projects %}
+    <div style="background: #FFF; border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <span style="font-size: 11px; font-weight: 700; color: var(--brand-forest); text-transform: uppercase;">{{ p['domain'] }}</span>
+                <span style="font-size: 11px; font-weight: 600; color: #1B5E38;">{{ p['status'] }}</span>
+            </div>
+            <h4 style="font-size: 15px; font-weight: 700; margin: 4px 0;">{{ p['title'] }}</h4>
+            <p style="font-size: 12px; color: var(--text-muted); margin: 6px 0 12px; line-height: 1.4;">
+                {{ p['abstract'] }}
+            </p>
+            <div style="font-size: 11px; font-family: monospace; color: #4B5563; margin-bottom: 12px;">
+                Stack: {{ p['tech_stack'] }}
+            </div>
+        </div>
+
+        <div style="border-top: 1px solid #F3F4F6; padding-top: 12px; display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted);">
+            <span>By: <strong>{{ p['student_name'] }}</strong></span>
+            <span>Supervisor: {{ p['supervisor'] }}</span>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

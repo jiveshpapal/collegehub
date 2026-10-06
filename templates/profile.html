@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile - CollegeHub{% endblock %}
+
+{% block heading %}Student Profile{% endblock %}
+{% block subheading %}Academic credentials and course enrollment{% endblock %}
+
+{% block content %}
+<div class="form-card" style="max-width: 650px;">
+    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border-color);">
+        <div class="avatar" style="width: 56px; height: 56px; font-size: 18px;">{{ user['user_name'][:2] }}</div>
+        <div>
+            <h2 style="font-size: 18px; font-weight: 700;">{{ user['user_name'] }}</h2>
+            <div style="font-size: 12px; color: var(--text-muted); font-family: monospace;">{{ user['student_id'] }} · {{ user['department'] }}</div>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
+        <div class="form-group">
+            <label>Student ID (Roll Number)</label>
+            <input type="text" value="{{ user['student_id'] }}" readonly class="form-input" style="background: #F9FAFB;">
+        </div>
+        <div class="form-group">
+            <label>Department</label>
+            <input type="text" value="{{ user['department'] }}" readonly class="form-input" style="background: #F9FAFB;">
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
+        <div class="form-group">
+            <label>Registered Email</label>
+            <input type="email" value="{{ user['email'] }}" readonly class="form-input" style="background: #F9FAFB;">
+        </div>
+        <div class="form-group">
+            <label>Academic Year / Semester</label>
+            <input type="text" value="{{ user['year_semester'] }}" readonly class="form-input" style="background: #F9FAFB;">
+        </div>
+    </div>
+
+    <div style="margin-top: 24px; padding: 14px; background: var(--brand-forest-light); border-radius: 8px; border: 1px solid #C6E2D0; font-size: 12px; color: var(--brand-forest);">
+        ✓ Verified Student Account · College of Engineering & Information Technology
+    </div>
+</div>
+{% endblock %}

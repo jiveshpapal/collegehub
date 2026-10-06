@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Share Notes - CollegeHub{% endblock %}
+
+{% block heading %}Share Class Notes{% endblock %}
+{% block subheading %}Contribute notes and study guides for peer student review.{% endblock %}
+
+{% block content %}
+<div class="form-card">
+    <form action="{{ url_for('upload_notes') }}" method="POST">
+        <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" name="author_name" value="{{ user['user_name'] }}" readonly class="form-input" style="background: #F9FAFB;">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group">
+                <label>Class or Semester *</label>
+                <input type="text" name="semester" value="Year 3, Semester 5" required class="form-input">
+            </div>
+            <div class="form-group">
+                <label>Subject Name *</label>
+                <select name="subject" class="form-select">
+                    <option value="Internet of Things (IOT)">Internet of Things (IOT)</option>
+                    <option value="Advanced Web Programming (AWP)">Advanced Web Programming (AWP)</option>
+                    <option value="Data Structures & Algorithms">Data Structures & Algorithms</option>
+                    <option value="Database Systems (DBMS)">Database Systems (DBMS)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Note Title / Topic *</label>
+            <input type="text" name="title" placeholder="e.g. Unit 4: RESTful API Design & Flask MySQL Connector" required class="form-input">
+        </div>
+
+        <div class="form-group">
+            <label>Brief Summary *</label>
+            <textarea name="summary" rows="3" placeholder="Summary of chapters covered, formulas, and lab tasks..." required class="form-textarea"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>PDF File Attachment</label>
+            <input type="file" class="form-input" accept=".pdf">
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+            <a href="{{ url_for('notes') }}" class="btn-outline">Cancel</a>
+            <button type="submit" class="btn-forest">Publish to Library</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

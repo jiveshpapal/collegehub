@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - CollegeHub{% endblock %}
+
+{% block heading %}Good to see you, {{ user['user_name'].split()[0] }}.{% endblock %}
+{% block subheading %}{{ today }} · {{ user['department'] }}{% endblock %}
+
+{% block content %}
+<!-- Top Metrics Section (4 Summary Cards) -->
+<div class="metrics-grid">
+    <div class="metric-card">
+        <span class="metric-label">Attendance %</span>
+        <span class="metric-value">{{ attendance }}%</span>
+        <span class="metric-sub text-success">Good standing (&gt;75%)</span>
+    </div>
+    <div class="metric-card">
+        <span class="metric-label">Assignments Due</span>
+        <span class="metric-value">{{ pending_count }}</span>
+        <span class="metric-sub">Action required</span>
+    </div>
+    <div class="metric-card">
+        <span class="metric-label">Submitted</span>
+        <span class="metric-value">{{ submitted_count }}</span>
+        <span class="metric-sub text-muted">Completed terms</span>
+    </div>
+    <div class="metric-card">
+        <span class="metric-label">Upcoming Events</span>
+        <span class="metric-value">{{ events|length }}</span>
+        <span class="metric-sub">This month</span>
+    </div>
+</div>
+
+<!-- 3-Section Grid Layout -->
+<div class="dashboard-grid">
+    <!-- Column 1: Assignments Tracker -->
+    <section class="card-box">
+        <div>
+            <div class="card-header">
+                <h2>Assignments Tracker</h2>
+                <a href="{{ url_for('assignments') }}" style="font-size: 12px; color: var(--brand-forest); text-decoration: none; font-weight: 600;">View all &rarr;</a>
+            </div>
+            <div class="assignment-list">
+                {% for a in assignments %}
+                <div class="assignment-row">
+                    <div>
+                        <div class="subject-tag">{{ a['subject'] }}</div>
+                        <div class="assignment-title">{{ a['title'] }}</div>
+                        <span class="due-text">Due: {{ a['due_date'] }}</span>
+                    </div>
+                    <div>
+                        {% if a['is_submitted'] %}
+                        <span class="status-badge-done">Submitted</span>
+                        {% else %}
+                        <form action="{{ url_for('toggle_assignment', assignment_id=a['id']) }}" method="POST">
+                            <button type="submit" class="btn-forest-sm">Mark done</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Column 2: Class Participation / Attendance -->
+    <section class="card-box">
+        <div>
+            <div class="card-header">
+                <h2>Class Attendance</h2>
+            </div>
+            <div class="attendance-summary">
+                <div class="circle-metric">{{ attendance }}%</div>
+                <p class="attendance-hint">You have attended 118 of 132 sessions this term.</p>
+                <button class="btn-forest full-width">+ Log Class Check-in</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Column 3: Campus Events & Quick Feed -->
+    <section class="card-box">
+        <div>
+            <div class="card-header">
+                <h2>Campus Events</h2>
+                <a href="{{ url_for('events') }}" style="font-size: 12px; color: var(--brand-forest); text-decoration: none; font-weight: 600;">Calendar &rarr;</a>
+            </div>
+            <div class="event-feed">
+                {% for ev in events %}
+                <div class="event-item">
+                    <div class="date-badge">
+                        <span class="day">{{ ev['day_badge'] }}</span>
+                        <span class="month">{{ ev['month_badge'] }}</span>
+                    </div>
+                    <div>
+                        <span class="location-tag">{{ ev['location'] }}</span>
+                        <div class="event-name">{{ ev['title'] }}</div>
+                        <span style="font-size: 11px; color: var(--text-muted); font-family: monospace;">{{ ev['time'] }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- College Projects Quick Link Banner -->
+<div style="margin-top: 28px; background: #1E1E1E; color: #FFF; border-radius: 10px; padding: 24px; display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <div style="font-size: 11px; font-weight: 700; color: #68D391; text-transform: uppercase;">College Projects</div>
+        <h3 style="font-size: 18px; margin: 4px 0;">Semester Capstone Projects & Student Submissions</h3>
+        <p style="font-size: 13px; color: #A0AEC0;">Browse student repositories or submit your final year project proposal for supervisor review.</p>
+    </div>
+    <a href="{{ url_for('projects') }}" class="btn-forest" style="background: #FFF; color: #1E1E1E;">Explore Projects &rarr;</a>
+</div>
+{% endblock %}

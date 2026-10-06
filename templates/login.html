@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - CollegeHub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .auth-card {
+            background: #FFF;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+        .auth-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .demo-box {
+            background: var(--brand-forest-light);
+            border: 1px solid #C6E2D0;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <span class="brand-badge" style="display:inline-block; margin-bottom: 8px;">CH</span>
+                <h1 style="font-size: 22px; font-weight: 700;">CollegeHub</h1>
+                <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Student Portal & College Projects System</p>
+            </div>
+
+            <!-- Demo Login Box -->
+            <div class="demo-box">
+                <div>
+                    <div style="font-size: 12px; font-weight: 700; color: var(--brand-forest);">Test Student Account</div>
+                    <div style="font-size: 11px; color: #4B5563;">Krishna Kamala Prasad Vishwakarma</div>
+                </div>
+                <a href="{{ url_for('demo_login') }}" class="btn-forest-sm">Demo Login &rarr;</a>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, msg in messages %}
+                        <div class="flash-message flash-{{ category }}">{{ msg }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form action="{{ url_for('login') }}" method="POST">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" value="krishna.v@college.edu" required class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" value="student123" required class="form-input">
+                </div>
+
+                <button type="submit" class="btn-forest full-width" style="margin-top: 10px;">Sign In to Dashboard</button>
+            </form>
+
+            <div style="text-align: center; margin-top: 20px; font-size: 13px; color: var(--text-muted);">
+                Don't have an account? <a href="{{ url_for('signup') }}" style="color: var(--brand-forest); font-weight: 600; text-decoration: none;">Sign up here</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
